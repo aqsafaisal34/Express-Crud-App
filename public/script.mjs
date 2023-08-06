@@ -3,7 +3,7 @@ window.addPost = async () => {
   let text = document.getElementById("text").value;
   try{
     await axios
-    .post("http://localhost:3000/post", {
+    .post("https://swimsuit-cape-buffalo.cyclic.app//post", {
       title,
       text,
     })
@@ -23,7 +23,7 @@ window.addPost = async () => {
 window.getAllPosts = async () => {
   try{
  await axios
-    .get("http://localhost:3000/posts")
+    .get("https://swimsuit-cape-buffalo.cyclic.app//posts")
     .then((res) => {
       console.log(res.data);
 
@@ -50,7 +50,7 @@ window.delPost = async (postId) => {
   console.log("delete: ", postId);
   try {
     await axios
-      .delete(`http://localhost:3000/post/${postId}`)
+      .delete(`https://swimsuit-cape-buffalo.cyclic.app//post/${postId}`)
       .then(function (response) {
         console.log(response.data);
 
@@ -83,7 +83,7 @@ window.savePost = async (postId) => {
   const updatedText = document.querySelector(`#text-${postId}`).value;
 
  await axios
-    .put(`http://localhost:3000/post/${postId}`, {
+    .put(`https://swimsuit-cape-buffalo.cyclic.app//post/${postId}`, {
       id: postId,
       title: updatedTitle,
       text: updatedText,
