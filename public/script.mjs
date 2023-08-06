@@ -3,7 +3,7 @@ window.addPost = async () => {
   let text = document.getElementById("text").value;
   try{
     await axios
-    .post("https://swimsuit-cape-buffalo.cyclic.app//post", {
+    .post("/post", {
       title,
       text,
     })
@@ -23,7 +23,7 @@ window.addPost = async () => {
 window.getAllPosts = async () => {
   try{
  await axios
-    .get("https://swimsuit-cape-buffalo.cyclic.app//posts")
+    .get("/posts")
     .then((res) => {
       console.log(res.data);
 
@@ -33,8 +33,8 @@ window.getAllPosts = async () => {
         postsHtml += `<div id='card-${eachPost.id}' class="post-card">
                   <h3 class="post-title">Title:${eachPost.title}</h3>
                   <p class="post-text">${eachPost.text} </p>
-                  <button class="edit-btn btn btn-primary" onclick="delPost('${eachPost.id}')">Delete</button>
-                  <button class="delete-btn btn btn-primary" onclick="editPost('${eachPost.id}','${eachPost.title}','${eachPost.text}', )">Edit</button>
+                  <button class="edit-btn btn btn-danger" onclick="delPost('${eachPost.id}')">Delete</button>
+                  <button class="delete-btn btn btn-success" onclick="editPost('${eachPost.id}','${eachPost.title}','${eachPost.text}', )">Edit</button>
               </div> 
               <br />`;
       });
@@ -50,7 +50,7 @@ window.delPost = async (postId) => {
   console.log("delete: ", postId);
   try {
     await axios
-      .delete(`https://swimsuit-cape-buffalo.cyclic.app//post/${postId}`)
+      .delete(`/post/${postId}`)
       .then(function (response) {
         console.log(response.data);
 
@@ -83,7 +83,7 @@ window.savePost = async (postId) => {
   const updatedText = document.querySelector(`#text-${postId}`).value;
 
  await axios
-    .put(`https://swimsuit-cape-buffalo.cyclic.app//post/${postId}`, {
+    .put(`/post/${postId}`, {
       id: postId,
       title: updatedTitle,
       text: updatedText,
