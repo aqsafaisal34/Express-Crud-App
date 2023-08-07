@@ -45,9 +45,9 @@ app.post("/post", async (req, res, next) => {
   // add document into database
 
   const post = {
-    id: nanoid(),
     title: req.body.title,
     text: req.body.text,
+    
   };
   try {
     const result = await postsCollection.insertOne(post);
@@ -61,20 +61,28 @@ app.post("/post", async (req, res, next) => {
 });
 
 app.get("/posts", async (req, res, next) => {
-  try {
-    const posts = await postsCollection.find({}).toArray();
-    res.send({
-      posts: posts,
-    });
-  } catch (err) {
-    console.log(err);
-  }
+  const cursor = postsCollection.find({})
+        .sort({ _id: -1 })
+        .limit(100);
+
+        try {
+          let results = await cursor.toArray()
+          console.log("results: ", results);
+          res.send(results);
+      } catch (e) {
+          console.log("error getting data mongodb: ", e);
+          res.status(500).send('server error, please try later');
+      }
 });
 
-app.get("/post/:id", async (req, res, next) => {
+app.get("/post/:postId", async (req, res, next) => {
+  if (!ObjectId.isValid(req.params.postId)) {
+    res.status(403).send(`Invalid post id`);
+    return;
+  }
   try {
     const result = await postsCollection.findOne({
-      _id: new ObjectId(req.params.id),
+      _id: new ObjectId(req.params.postId),
     });
     res.send(result);
   } catch (err) {
@@ -83,10 +91,10 @@ app.get("/post/:id", async (req, res, next) => {
 });
 
 app.put("/post/:postId", async (req, res, next) => {
-  // if (!ObjectId.isValid(req.params.postId)) {
-  //   res.status(403).send(`Invalid post id`);
-  //   return;
-  // }
+  if (!ObjectId.isValid(req.params.postId)) {
+    res.status(403).send(`Invalid post id`);
+    return;
+  }
 
   if (!req.body.text && !req.body.title) {
     res.status(403).send(`required parameter missing, example put body: 
@@ -129,7 +137,6 @@ app.delete("/post/:postId", async (req, res, next) => {
     res.status(403).send(`Invalid post id`);
     return;
   }
-
   try {
     const deleteResponse = await postsCollection.deleteOne({
       _id: new ObjectId(req.params.postId),
@@ -137,7 +144,8 @@ app.delete("/post/:postId", async (req, res, next) => {
     console.log("deleteResponse: ", deleteResponse);
     res.send("post deleted");
   } catch (e) {
-    console.log("error deleting mongodb: ", e);
+    console.log("error deleting mongodb: ", e);  // }
+
     res.status(500).send("server error, please try later");
   }
 });

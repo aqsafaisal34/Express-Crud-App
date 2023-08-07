@@ -29,7 +29,7 @@ window.getAllPosts = async () => {
 
       let postsHtml = ``;
 
-      res.data.posts.map((eachPost) => {
+      res.data.map((eachPost) => {
         postsHtml += `<div id='card-${eachPost.id}' class="post-card">
                   <h3 class="post-title">Title:${eachPost.title}</h3>
                   <p class="post-text">${eachPost.text} </p>
@@ -41,7 +41,7 @@ window.getAllPosts = async () => {
 
       document.querySelector("#post-list").innerHTML = postsHtml;
     })
-  }catch{
+  }catch(err){
     console.log(err);
   }
 };
