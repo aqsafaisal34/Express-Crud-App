@@ -14,7 +14,7 @@ window.addPost = async () => {
       getAllPosts();
       alert("New Post added");
     });
-  }catch{
+  }catch(err){
     console.log(err);
     alert("error in adding post");
   }
@@ -93,8 +93,8 @@ window.savePost = async (postId) => {
       alert("Post updated");
       getAllPost();
     })
-  }catch{
-    console.log(error.data);
+  }catch(error){
+    console.log(error);
     alert("error in updating post");
 }
 };
