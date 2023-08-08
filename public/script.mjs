@@ -30,11 +30,11 @@ window.getAllPosts = async () => {
       let postsHtml = ``;
 
       res.data.map((eachPost) => {
-        postsHtml += `<div id='card-${eachPost.id}' class="post-card">
+        postsHtml += `<div id='card-${eachPost._id}' class="post-card">
                   <h3 class="post-title">Title:${eachPost.title}</h3>
                   <p class="post-text">${eachPost.text} </p>
-                  <button class="edit-btn btn btn-danger" onclick="delPost('${eachPost.id}')">Delete</button>
-                  <button class="delete-btn btn btn-success" onclick="editPost('${eachPost.id}','${eachPost.title}','${eachPost.text}', )">Edit</button>
+                  <button class="edit-btn btn btn-danger" onclick="delPost('${eachPost._id}')">Delete</button>
+                  <button class="delete-btn btn btn-success" onclick="editPost('${eachPost._id}','${eachPost.title}','${eachPost.text}', )">Edit</button>
               </div> 
               <br />`;
       });
